@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理画面 | Koi-Kukuri Meta-Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/public/css/style.css" />
+  <style>
+    body {
+      background: radial-gradient(circle at top, #ffe6f3 0, #fde1ff 32%, #fbe8ff 60%, #fff7fb 100%);
+      color: #4b4255;
+      font-family: "Zen Maru Gothic", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .admin-wrapper { padding-top: 80px; padding-bottom: 80px; }
+    .admin-nav { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .admin-nav a {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(249, 168, 212, 0.8);
+      color: #4b4255;
+      font-size: 14px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .admin-section {
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 24px;
+      padding: 24px 24px 28px;
+      border: 1px solid rgba(255, 182, 193, 0.45);
+      margin-bottom: 32px;
+      box-shadow: 0 18px 40px rgba(240, 149, 190, 0.18);
+    }
+    .admin-section h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 20px;
+      color: #f9739a;
+    }
+    .admin-section p {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #6b6075;
+    }
+    .form-grid {
+      display: grid;
+      gap: 16px;
+    }
+    .form-field label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #6b6075;
+    }
+    .form-field input[type="text"],
+    .form-field input[type="url"],
+    .form-field input[type="datetime-local"],
+    .form-field textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(249, 168, 212, 0.6);
+      padding: 8px 10px;
+      font-size: 14px;
+      background: #fffafc;
+      color: #4b4255;
+      outline: none;
+    }
+    .form-field input[type="file"] {
+      color: #6b6075;
+      font-size: 13px;
+    }
+    .form-field textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .form-actions {
+      margin-top: 8px;
+    }
+    .btn-admin {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #ff9acb, #ffd1e0);
+      color: #5b2240;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .admin-list {
+      margin-top: 16px;
+      border-top: 1px dashed rgba(255,255,255,0.12);
+      padding-top: 12px;
+      font-size: 13px;
+      color: #6b6075;
+    }
+    .admin-list-item {
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(249, 168, 212, 0.6);
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(254, 202, 232, 0.8);
+      font-size: 11px;
+      margin-left: 6px;
+      color: #5b2240;
+    }
+    .admin-inline-form {
+      margin-top: 6px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(255, 240, 246, 0.9);
+    }
+    .admin-inline-form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .admin-inline-form-row input[type="text"],
+    .admin-inline-form-row input[type="url"],
+    .admin-inline-form-row input[type="datetime-local"] {
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+    .admin-inline-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-small {
+      padding: 4px 12px;
+      font-size: 12px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-update {
+      background: linear-gradient(135deg, #fb7185, #fbbf24);
+      color: #fff7f7;
+    }
+    .btn-delete {
+      background: rgba(248, 113, 113, 0.12);
+      color: #b91c1c;
+      border: 1px solid rgba(248, 113, 113, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-main">Koi-Kukuri</span>
+        <span class="logo-sub">Admin</span>
+      </div>
+      <nav class="nav">
+        <a href="/">公開サイトを見る</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-wrapper">
+    <div class="container">
+      <div class="admin-nav">
+        <a href="#events">イベント登録</a>
+        <a href="#home">トップ画像設定</a>
+        <a href="#news">お知らせ登録</a>
+      </div>
+
+      <section id="events" class="admin-section">
+        <h2>イベント登録</h2>
+        <p>題名・概要・開催日時・URL・サムネイル画像を登録できます。サムネイル画像は任意です。</p>
+        <form class="form-grid" method="post" action="/admin/events" enctype="multipart/form-data">
+          <div class="form-field">
+            <label for="event-title">題名</label>
+            <input id="event-title" type="text" name="title" required />
+          </div>
+          <div class="form-field">
+            <label for="event-summary">概要</label>
+            <textarea id="event-summary" name="summary" required></textarea>
+          </div>
+          <div class="form-field">
+            <label for="event-date">開催日時</label>
+            <input id="event-date" type="datetime-local" name="date" />
+          </div>
+          <div class="form-field">
+            <label for="event-url">URL（申込フォームや詳細ページ）</label>
+            <input id="event-url" type="url" name="url" placeholder="https://..." />
+          </div>
+          <div class="form-field">
+            <label for="event-thumbnail">サムネイル（任意）</label>
+            <input id="event-thumbnail" type="file" name="thumbnail" accept="image/*" />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-admin">イベントを登録する</button>
+          </div>
+        </form>
+
+        <div class="admin-list">
+          <strong>登録済みイベント</strong>
+          <% if (!events || events.length === 0) { %>
+            <p>まだイベントは登録されていません。</p>
+          <% } else { %>
+            <% events.forEach(function(event) { %>
+              <div class="admin-list-item">
+                <div>
+                  <span><%= event.title %></span>
+                  <% if (event.date) { %>
+                    <span class="badge"><%= event.date %></span>
+                  <% } %>
+                </div>
+
+                <form class="admin-inline-form" method="post" action="/admin/events/<%= event.id %>/update" enctype="multipart/form-data">
+                  <div class="admin-inline-form-row">
+                    <input type="text" name="title" value="<%= event.title %>" placeholder="題名" />
+                    <input type="datetime-local" name="date" value="<%= event.date || '' %>" />
+                    <input type="url" name="url" value="<%= event.url %>" placeholder="URL" />
+                  </div>
+                  <div class="form-field" style="margin-bottom: 4px;">
+                    <textarea name="summary" rows="2" placeholder="概要"><%= event.summary %></textarea>
+                  </div>
+                  <div class="admin-inline-actions">
+                    <label style="font-size: 11px; color: #6b6075;">
+                      サムネイル変更（任意）
+                      <input type="file" name="thumbnail" accept="image/*" style="display:block; margin-top:2px; font-size:11px;" />
+                    </label>
+                    <button type="submit" class="btn-small btn-update">更新する</button>
+                  </div>
+                </form>
+
+                <form method="post" action="/admin/events/<%= event.id %>/delete" onsubmit="return confirm('「<%= event.title %>」を削除してよろしいですか？');">
+                  <div class="admin-inline-actions">
+                    <button type="submit" class="btn-small btn-delete">このイベントを削除</button>
+                  </div>
+                </form>
+              </div>
+            <% }); %>
+          <% } %>
+        </div>
+      </section>
+
+      <section id="home" class="admin-section">
+        <h2>トップページ画像</h2>
+        <p>トップのヒーロー画像をアップロードできます。未設定の場合は、デフォルトのグラデーション背景が表示されます。</p>
+        <form class="form-grid" method="post" action="/admin/home-image" enctype="multipart/form-data">
+          <div class="form-field">
+            <label for="hero-image">画像ファイル（推奨：横長 / 1200px 以上）</label>
+            <input id="hero-image" type="file" name="heroImage" accept="image/*" required />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-admin">トップ画像を更新する</button>
+          </div>
+        </form>
+
+        <div class="admin-list">
+          <strong>現在の設定</strong>
+          <% if (home && home.heroImage) { %>
+            <p>トップ画像が設定されています。</p>
+            <img src="<%= home.heroImage %>" alt="現在のトップ画像" style="max-width: 100%; border-radius: 12px; margin-top: 8px;" />
+            <form method="post" action="/admin/home-image/delete" onsubmit="return confirm('トップ画像を削除しますか？');">
+              <div class="admin-inline-actions">
+                <button type="submit" class="btn-small btn-delete">トップ画像を削除</button>
+              </div>
+            </form>
+          <% } else { %>
+            <p>トップ画像は未設定です（デフォルト背景が表示されます）。</p>
+          <% } %>
+        </div>
+      </section>
+
+      <section id="news" class="admin-section">
+        <h2>お知らせ登録</h2>
+        <p>題名・概要・掲載日時を登録できます。</p>
+        <form class="form-grid" method="post" action="/admin/news">
+          <div class="form-field">
+            <label for="news-title">題名</label>
+            <input id="news-title" type="text" name="title" required />
+          </div>
+          <div class="form-field">
+            <label for="news-summary">概要</label>
+            <textarea id="news-summary" name="summary" required></textarea>
+          </div>
+          <div class="form-field">
+            <label for="news-date">掲載日時</label>
+            <input id="news-date" type="datetime-local" name="publishedAt" />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-admin">お知らせを登録する</button>
+          </div>
+        </form>
+
+        <div class="admin-list">
+          <strong>登録済みお知らせ</strong>
+          <% if (!news || news.length === 0) { %>
+            <p>まだお知らせは登録されていません。</p>
+          <% } else { %>
+            <% news.forEach(function(item) { %>
+              <div class="admin-list-item">
+                <div>
+                  <span><%= item.title %></span>
+                  <% if (item.publishedAt) { %>
+                    <span class="badge"><%= item.publishedAt %></span>
+                  <% } %>
+                </div>
+                <form class="admin-inline-form" method="post" action="/admin/news/<%= item.id %>/update">
+                  <div class="admin-inline-form-row">
+                    <input type="text" name="title" value="<%= item.title %>" placeholder="題名" />
+                    <input type="datetime-local" name="publishedAt" value="<%= item.publishedAt || '' %>" />
+                  </div>
+                  <div class="form-field" style="margin-bottom: 4px;">
+                    <textarea name="summary" rows="2" placeholder="概要"><%= item.summary %></textarea>
+                  </div>
+                  <div class="admin-inline-actions">
+                    <button type="submit" class="btn-small btn-update">更新する</button>
+                  </div>
+                </form>
+                <form method="post" action="/admin/news/<%= item.id %>/delete" onsubmit="return confirm('「<%= item.title %>」を削除してよろしいですか？');">
+                  <div class="admin-inline-actions">
+                    <button type="submit" class="btn-small btn-delete">このお知らせを削除</button>
+                  </div>
+                </form>
+              </div>
+            <% }); %>
+          <% } %>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
+
+

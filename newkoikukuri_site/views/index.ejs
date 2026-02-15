@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Koi-Kukuri × Meta-Life オンライン婚活イベント</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/public/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-main">Koi-Kukuri</span>
+        <span class="logo-sub">Meta-Life Online Event</span>
+      </div>
+      <nav class="nav">
+        <a href="#concept">イベントについて</a>
+        <a href="#team">メンバー紹介</a>
+        <a href="#features">3つの特徴</a>
+        <a href="#notice">参加にあたって</a>
+        <a href="#events">イベント情報</a>
+        <a href="#news">お知らせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <% if (home && home.heroImage) { %>
+        <div class="hero-bg" style="background-image: url('<%= home.heroImage %>');"></div>
+      <% } else { %>
+        <div class="hero-bg hero-bg-default"></div>
+      <% } %>
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <div class="hero-card">
+          <p class="hero-label">オンライン謎解き × Meta-Life</p>
+          <h1>
+            がんばらなくても、<br />
+            つながれる出会いを。
+          </h1>
+          <p class="hero-lead">
+            アバターで気軽に参加できる、新潟発のオンライン婚活イベント。<br />
+            協力型謎解きで、自然と会話が生まれ、人柄が見えてくる新しい出会いのカタチです。
+          </p>
+          <% if (events && events.length > 0) { %>
+            <a href="#events" class="btn-primary">開催中のイベントを見る</a>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+    <section id="news" class="section">
+      <div class="container">
+        <p class="section-label">News</p>
+        <h2>お知らせ</h2>
+        <% if (!news || news.length === 0) { %>
+          <p>現在、お知らせはありません。</p>
+        <% } else { %>
+          <ul class="news-list">
+            <% news.forEach(function(item) { %>
+              <li class="news-item">
+                <span class="news-date"><%= item.publishedAt || '' %></span>
+                <span class="news-title"><%= item.title %></span>
+                <p class="news-summary"><%= item.summary %></p>
+              </li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </div>
+    </section>
+
+    <section id="concept" class="section">
+      <div class="container two-column">
+        <div>
+          <p class="section-label">Concept</p>
+          <h2>イベントコンセプト</h2>
+          <p class="section-lead">
+            「がんばらなくても、つながれる出会い」をミッションに掲げ、オンライン仮想空間
+            「Meta-Life」を利用した協力型謎解きを通じて、自然な形で人柄を知り、心を通わせる新しい婚活イベントです。
+          </p>
+        </div>
+        <div class="concept-card">
+          <p>
+            初対面の相手と一対一で向き合うのではなく、同じチームで謎解きに挑戦しながら、
+            自然な会話と思いやりのコミュニケーションが生まれる仕掛けになっています。
+          </p>
+          <p>
+            「話すのが得意じゃない」「婚活に疲れてしまった」という方にも、
+            肩の力を抜いて参加していただけるような、あたたかなオンライン空間をご用意しました。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="section section-alt">
+      <div class="container">
+        <p class="section-label">Team</p>
+        <h2>こんなメンバーでやってます！</h2>
+        <div class="team-content">
+          <img src="/public/images/team.png" alt="開発チームメンバー" class="team-image" />
+          <div class="team-text">
+            <p class="team-concept">コンセプト：「婚活に疲れた人の味方でありたい」という想いを伝える</p>
+            <p>「初対面の人と話すのは、誰だって緊張する」 「条件だけで判断されるのは、なんだか寂しい」</p>
+            <p>私たち開発チームは、そんな「婚活の悩み」を抱えたことのあるメンバーや、コミュニケーションの新しい形を模索するメンバーで構成されています。</p>
+            <p>共通しているのは、<strong>「無理して自分を飾るのではなく、自然体でいられる出会いを作りたい」</strong>という強い想い。</p>
+            <p>謎解きクリエイター、エンジニア、デザイナー…。 それぞれの得意分野を活かして、あなたが「素の自分」で楽しめる空間を全力で作っています。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section section-alt">
+      <div class="container">
+        <p class="section-label">Features</p>
+        <h2>3つの特徴</h2>
+        <div class="features-grid">
+          <article class="feature-card">
+            <h3>【安心】アバター参加で顔出し不要</h3>
+            <p>
+              顔出しに抵抗がある方も、アバターを介して安心して参加できます。初対面の緊張感が和らぎ、
+              リラックスして会話が楽しめます。福井弁が少し出ても、同郷同士なら温かい会話のきっかけになります。
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>【自然】謎解きで人柄がわかる</h3>
+            <p>
+              「何を話せばいいか分からない…」という方も大丈夫。謎解きという共通のゴールがあるので、
+              自然に会話が生まれます。問題解決へのアプローチや、困っている人への気遣いなど、
+              通常の婚活では見えにくい「素」の姿や人柄が自然に表れます。
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>【手軽】雪道の運転不要！移動時間ゼロ</h3>
+            <p>
+              12月の福井は天候が心配ですが、オンラインなら自宅から参加できるため、
+              雪道運転や駐車場の心配が一切ありません。参加者は福井県に関係する方ばかりなので、
+              「この辺りで美味しいお店知ってる？」といったローカルな話題でも盛り上がりやすく、
+              リアルな交際にも発展しやすいのが魅力です。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="notice" class="section">
+      <div class="container">
+        <p class="section-label">Important</p>
+        <h2>参加にあたっての注意点（必ずご確認ください）</h2>
+        <div class="cards-grid">
+          <article class="info-card">
+            <h3>年齢確認について</h3>
+            <p>
+              法令遵守のため、年齢確認を事前に行います。お申し込み後、事前に本人確認用の専用フォームをお送りします。
+            </p>
+            <p>【身分証】運転免許証、マイナンバーカードのいずれかをご提示ください。</p>
+          </article>
+          <article class="info-card">
+            <h3>推奨環境</h3>
+            <p>
+              PCでの参加を推奨します（スマホも可）。ネットワーク環境が不安定な場合、イベントを円滑に進められない可能性があります。
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>プライバシー保護</h3>
+            <p>
+              イベント中の画面録画やスクリーンショットはご遠慮ください。安心してご参加いただけるよう、
+              プライバシー保護にご協力をお願いいたします。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="events" class="section section-alt">
+      <div class="container">
+        <p class="section-label">Event</p>
+        <h2>イベント情報</h2>
+        <% if (!events || events.length === 0) { %>
+          <p>現在、募集中のイベント情報は準備中です。次回開催まで今しばらくお待ちください。</p>
+        <% } else { %>
+          <div class="cards-grid">
+            <% events.forEach(function(event) { %>
+              <article class="event-card">
+                <% if (event.thumbnail) { %>
+                  <div class="event-thumb" style="background-image: url('<%= event.thumbnail %>');"></div>
+                <% } %>
+                <div class="event-body">
+                  <p class="event-date"><%= event.date || '日程調整中' %></p>
+                  <h3><%= event.title %></h3>
+                  <p class="event-summary"><%= event.summary %></p>
+                  <% if (event.url) { %>
+                    <a href="<%= event.url %>" class="btn-link" target="_blank" rel="noopener noreferrer">詳細・申込はこちら</a>
+                  <% } %>
+                </div>
+              </article>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+    </section>
+
+    <section id="news" class="section">
+      <div class="container">
+        <p class="section-label">News</p>
+        <h2>お知らせ</h2>
+        <% if (!news || news.length === 0) { %>
+          <p>現在、お知らせはありません。</p>
+        <% } else { %>
+          <ul class="news-list">
+            <% news.forEach(function(item) { %>
+              <li class="news-item">
+                <span class="news-date"><%= item.publishedAt || '' %></span>
+                <span class="news-title"><%= item.title %></span>
+                <p class="news-summary"><%= item.summary %></p>
+              </li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container two-column">
+        <div>
+          <p class="section-label">Organizer</p>
+          <h2>運営情報</h2>
+          <p><strong>Koi-Kukuri運営事務局</strong></p>
+          <p>インターネット異性紹介事業届出済</p>
+          <p>受理番号：46250002000</p>
+        </div>
+        <div>
+          <p class="section-label">Message</p>
+          <h2>運営からの一言</h2>
+          <p>
+            Koi-Kukuriは、「がんばらなくても、つながれる出会い」を大切にしています。街がイルミネーションに彩られるこの季節、
+            皆さまが安心して、そして心から楽しめるような温かい出会いを提供したいと考えています。
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-logo">Koi-Kukuri</p>
+      <p class="footer-copy">© <%= new Date().getFullYear() %> Koi-Kukuri 運営事務局</p>
+    </div>
+  </footer>
+</body>
+</html>
+
+
